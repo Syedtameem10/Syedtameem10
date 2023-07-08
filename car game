@@ -1,0 +1,62 @@
+import pygame<br>
+import random<br>
+<br>
+# Initialize Pygame<br>
+pygame.init()<br>
+<br>
+# battle fire<br>
+width, height = 800, 600<br>
+window = pygame.display.set_mode((width, height))<br>
+pygame.display.set_caption(&quot;My Game&quot;)<br>
+<br>
+# player=50<br>
+player_size = 50<br>
+player_x = width // 2 - player_size // 2<br>
+player_y = height - player_size - 10<br>
+player_speed = 5<br>
+<br>
+# enymy<br>
+enemy_size = 50<br>
+enemy_x = random.randint(0, width - enemy_size)<br>
+enemy_y = 0<br>
+enemy_speed = 3<br>
+<br>
+# Game loop<br>
+running = True<br>
+while running:<br>
+&nbsp;&nbsp;&nbsp; # Handle events<br>
+&nbsp;&nbsp;&nbsp; for event in pygame.event.get():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if event.type == pygame.QUIT:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; running = False<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; # Handle player input<br>
+&nbsp;&nbsp;&nbsp; keys = pygame.key.get_pressed()<br>
+&nbsp;&nbsp;&nbsp; if keys[pygame.K_LEFT] and player_x &gt; 0:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; player_x -= player_speed<br>
+&nbsp;&nbsp;&nbsp; if keys[pygame.K_RIGHT] and player_x &lt; width - player_size:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; player_x += player_speed<br>
+<br>
+&nbsp;&nbsp;&nbsp; # Update game state<br>
+&nbsp;&nbsp;&nbsp; enemy_y += enemy_speed<br>
+&nbsp;&nbsp;&nbsp; if enemy_y &gt; height:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enemy_x = random.randint(0, width - enemy_size)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enemy_y = 0<br>
+<br>
+&nbsp;&nbsp;&nbsp; # Check for collision<br>
+&nbsp;&nbsp;&nbsp; if (<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; player_x &lt; enemy_x + enemy_size<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and player_x + player_size &gt; enemy_x<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and player_y &lt; enemy_y + enemy_size<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and player_y + player_size &gt; enemy_y<br>
+&nbsp;&nbsp;&nbsp; ):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; print(&quot;Game Over!&quot;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; running = False<br>
+<br>
+&nbsp;&nbsp;&nbsp; # Render the game<br>
+&nbsp;&nbsp;&nbsp; window.fill((0, 0, 0))&nbsp; # Clear the window<br>
+&nbsp;&nbsp;&nbsp; pygame.draw.rect(window, (255, 0, 0), (player_x, player_y, player_size, player_size))&nbsp; # Draw the player<br>
+&nbsp;&nbsp;&nbsp; pygame.draw.rect(window, (0, 255, 0), (enemy_x, enemy_y, enemy_size, enemy_size))&nbsp; # Draw the enemy<br>
+&nbsp;&nbsp;&nbsp; pygame.display.update()&nbsp; # Update the window<br>
+<br>
+# Quit the game<br>
+pygame.quit()
